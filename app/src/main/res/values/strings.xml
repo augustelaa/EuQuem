@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EuQuem</string>
+
+    <string name="nome_hint">Nome *</string>
+    <string name="email_hint">E-mail *</string>
+    <string name="cep_hint">CEP *</string>
+    <string name="logradouro_hint">Logradouro</string>
+    <string name="numero_hint">Número *</string>
+    <string name="complemento_hint">Complemento</string>
+    <string name="bairro_hint">Bairro</string>
+    <string name="cidade_hint">Cidade</string>
+    <string name="estado_hint">Estado</string>
+    <string name="telefone_hint">Telefone *</string>
+    <string name="cadastrar_button">Cadastrar</string>
+</resources>
