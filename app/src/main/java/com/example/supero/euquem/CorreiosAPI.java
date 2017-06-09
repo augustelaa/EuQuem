@@ -10,6 +10,10 @@ import android.content.DialogInterface;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.io.FileNotFoundException;
+import java.net.UnknownHostException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -42,10 +46,9 @@ public class CorreiosAPI{
     private class TarefaDownload extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute(){
-            load = ProgressDialog.show(mainActivity, "Por favor Aguarde ...", "Baixando JSON ...");
+            load = ProgressDialog.show(mainActivity, "Por favor, aguarde.", "Buscando CEP...");
             alertDialog = new AlertDialog.Builder(mainActivity, android.R.style.Theme_Material_Dialog_Alert).create();
             alertDialog.setTitle("Atenção!");
-            alertDialog.setMessage("O CEP informado é inválido.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -61,6 +64,9 @@ public class CorreiosAPI{
                 URL url = new URL(params[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
+                urlConnection.setReadTimeout(5000);
+                urlConnection.setConnectTimeout(5000);
+
                 InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder builder = new StringBuilder();
@@ -72,16 +78,22 @@ public class CorreiosAPI{
 
                 json = builder.toString();
                 urlConnection.disconnect();
-            } catch (IOException e) {
+            } catch (UnknownHostException e) {
+                alertDialog.setMessage("O serviço dos Correios não está disponível ou você não está conectado à internet.\n\nHost Error");
+            } catch (SocketTimeoutException e) {
+                alertDialog.setMessage("O serviço dos Correios não está disponível ou você não está conectado à internet.\n\nHost Timeout");
+            } catch (FileNotFoundException e){
+                alertDialog.setMessage("O CEP " + mainActivity.cepEditText.getText() + " é inválido.");
+            } catch (Exception e) {
+                alertDialog.setMessage("O serviço dos Correios não está disponível ou você não está conectado à internet.\n\nUnknow");
             }
             return json;
         }
 
         @Override
         protected void onPostExecute(String jsonText){
-
+            Log.i("CEP", "Retorno CEP: " + jsonText);
             if(jsonText!=null) {
-                Log.i("CEP", "Retorno CEP: " + jsonText);
 
                 Gson gson = new Gson();
                 CEPWrapper response = gson.fromJson(jsonText, CEPWrapper.class);
@@ -90,6 +102,8 @@ public class CorreiosAPI{
                 mainActivity.cidadeEditText.setText(response.cidade);
                 mainActivity.estadoEditText.setText(response.estado);
                 mainActivity.numeroEditText.requestFocus();
+                mainActivity.cepValido = true;
+                mainActivity.isFormularioValido();
 
             }else{
                 alertDialog.show();
@@ -99,6 +113,8 @@ public class CorreiosAPI{
                 mainActivity.estadoEditText.setText(null);
                 mainActivity.cepEditText.setText(null);
                 mainActivity.cepEditText.requestFocus();
+                mainActivity.cepValido = false;
+                mainActivity.isFormularioValido();
             }
             load.dismiss();
         }

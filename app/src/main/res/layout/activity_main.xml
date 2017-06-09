@@ -43,27 +43,12 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/logradouro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:editable="false"
-            android:hint="@string/logradouro_hint" />
-
-        <EditText
             android:id="@+id/numero"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/numero_hint"
             android:inputType="number" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/complemento"
@@ -72,21 +57,19 @@
             android:layout_weight="1"
             android:hint="@string/complemento_hint" />
 
-        <EditText
-            android:id="@+id/bairro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:editable="false"
-            android:hint="@string/bairro_hint" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/estado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/estado_hint" />
 
         <EditText
             android:id="@+id/cidade"
@@ -95,13 +78,28 @@
             android:layout_weight="1"
             android:editable="false"
             android:hint="@string/cidade_hint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/estado"
+            android:id="@+id/logradouro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/estado_hint" />
+            android:editable="false"
+            android:hint="@string/logradouro_hint" />
+
+        <EditText
+            android:id="@+id/bairro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:editable="false"
+            android:hint="@string/bairro_hint" />
 
     </LinearLayout>
 
@@ -116,6 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="false"
+            android:onClick="cadastrar"
             android:text="@string/cadastrar_button" />
     </LinearLayout>
 

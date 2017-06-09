@@ -12,4 +12,6 @@
     <string name="estado_hint">Estado</string>
     <string name="telefone_hint">Telefone *</string>
     <string name="cadastrar_button">Cadastrar</string>
+    <string name="cadastrado_mensagem">Parabéns! Seu cadastro foi efetuado com sucesso.</string>
+    <string name="voltar_button">Voltar</string>
 </resources>
