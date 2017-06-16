@@ -10,10 +10,16 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.view.View;
 import android.widget.EditText;
+import android.database.Cursor;
 
+/**
+ * Created by Augusto Henrique da Conceição on 07/06/2017.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private CorreiosAPI correiosAPI;
+    private Perfil perfil;
+    private DBHelper dbConn;
 
     protected EditText cepEditText;
     protected EditText emailEditText;
@@ -54,6 +60,29 @@ public class MainActivity extends AppCompatActivity {
         new TheWatcher();
 
         correiosAPI = new CorreiosAPI(this);
+        dbConn = new DBHelper(this);
+        perfil = new Perfil(dbConn);
+        perfil.id = 1;
+        perfil.loadPerfil();
+
+        nomeEditText.setText(perfil.nome);
+        emailEditText.setText(perfil.email);
+        telefoneEditText.setText(perfil.telefone);
+        if(perfil.cep != 0) {
+            cepEditText.setText(perfil.cep.toString());
+        }else{
+            cepEditText.setText("");
+        }
+        if(perfil.numero != 0) {
+            numeroEditText.setText(perfil.numero.toString());
+        }else{
+            numeroEditText.setText("");
+        }
+        complementoEditText.setText(perfil.complemento);
+        estadoEditText.setText(perfil.estado);
+        cidadeEditText.setText(perfil.cidade);
+        logradouroEditText.setText(perfil.logradouro);
+        bairroEditText.setText(perfil.bairro);
     }
 
     public void isFormularioValido(){
@@ -66,6 +95,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Chamado ao clicar o botão de cadastrar
     public void cadastrar(View view){
+        perfil.id = 1;
+        perfil.nome = nomeEditText.getText().toString();
+        perfil.email = emailEditText.getText().toString();
+        perfil.telefone = telefoneEditText.getText().toString();
+        perfil.cep = Integer.parseInt(cepEditText.getText().toString());
+        perfil.numero = Integer.parseInt(numeroEditText.getText().toString());
+        perfil.complemento = complementoEditText.getText().toString();
+        perfil.estado = estadoEditText.getText().toString();
+        perfil.cidade = cidadeEditText.getText().toString();
+        perfil.logradouro = logradouroEditText.getText().toString();
+        perfil.bairro = bairroEditText.getText().toString();
+        perfil.savePerfil();
+
         Intent intent = new Intent(MainActivity.this, CadastradoActivity.class);
         startActivity(intent);
     }
@@ -171,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
                 if (telefoneEditText.getText().length() >= 8) {
                     Log.i("Telefone", "Consultando telefone: " + telefoneEditText.getText().toString());
                     telefoneValido = isValidPhone(telefoneEditText.getText());
+                }else{
+                    telefoneValido = false;
                 }
 
                 isFormularioValido();

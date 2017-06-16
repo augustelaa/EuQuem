@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 /**
- * Created by supero on 07/06/2017.
+ * Created by Augusto Henrique da Conceição on 07/06/2017.
  */
 
 public class CorreiosAPI{

@@ -27,7 +27,8 @@
         android:id="@+id/telefone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/telefone_hint" />
+        android:hint="@string/telefone_hint"
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/cep"
